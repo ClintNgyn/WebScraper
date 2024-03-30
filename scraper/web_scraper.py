@@ -19,9 +19,7 @@ class WebScraper:
         Caches result in self.soups (only re-fetches data every 120s)
         """
 
-        current_time = time()
-
-        if not self.soups or (current_time - self.last_fetch_time >= 120):
+        if not self.soups or (time() - self.last_fetch_time >= 120):
             print("-> fetching")
             self.soups = dict()
             for path in self.paths:
@@ -34,7 +32,7 @@ class WebScraper:
                 except RequestException as req_ex:
                     raise FetchError(f'Failed to fetch "{url}": \n    -> {req_ex}')
 
-            self.last_fetch_time = current_time
+            self.last_fetch_time = time()
 
         print("-> cached")
         return self.soups
